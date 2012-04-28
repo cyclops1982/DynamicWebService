@@ -1,0 +1,8 @@
+To deploy, build the solution and copy the DynamicWebService.dll found in
+<project dir>/bin/debug/ to C:\Program Files\K2 blackpearl\ServiceBroker
+
+Then run the BrokerManagement.exe program found in that directory.
+
+* Select Configure Service
+* Right click on the services tree item in the left pane and register a new service.
+* Enter in whatever details you want for the various names, and specify the  .dll you copied as the assembly
