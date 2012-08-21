@@ -55,6 +55,21 @@ namespace DynamicWebService
             }
         }
 
+        private int WebServiceTimeout
+        {
+            get
+            {
+                int timeout = 30;
+                string confOption =_serviceBroker.Service.ServiceConfiguration["Timeout"].ToString();
+                if (string.IsNullOrEmpty(confOption))
+                {
+                    return (timeout * 1000);
+                }
+                int.TryParse(confOption, out timeout);
+                return (timeout * 1000);
+            }
+        }
+
 
         private bool UseImpersonation
         {
@@ -153,6 +168,7 @@ namespace DynamicWebService
             Type wsType = WebServiceAssembly.GetTypes()[0];
             SoapHttpClientProtocol wsInstance = (SoapHttpClientProtocol)WebServiceAssembly.CreateInstance(wsType.Name);
             wsInstance.Credentials = CredentialsForServiceCall;
+            wsInstance.Timeout = WebServiceTimeout;
 
             MethodInfo wsMethod = wsType.GetMethod(serviceObject.Name);
 
