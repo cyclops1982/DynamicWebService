@@ -43,7 +43,7 @@ namespace DynamicWebService
         {
             get
             {
-                return _serviceBroker.Service.ServiceConfiguration["URL"].ToString();
+                return _serviceBroker.Service.ServiceConfiguration[Constants.Config.WebServiceUrl].ToString();
             }
         }
 
@@ -51,7 +51,7 @@ namespace DynamicWebService
         {
             get
             {
-                return bool.Parse(_serviceBroker.Service.ServiceConfiguration["Skip unsupported methods"].ToString());
+                return bool.Parse(_serviceBroker.Service.ServiceConfiguration[Constants.Config.SkipUnsupportedMethods].ToString());
             }
         }
 
@@ -59,7 +59,7 @@ namespace DynamicWebService
         {
             get
             {
-                return bool.Parse(_serviceBroker.Service.ServiceConfiguration["WebServiceDynamicUrl"].ToString());
+                return bool.Parse(_serviceBroker.Service.ServiceConfiguration[Constants.Config.WebServiceDynamicUrl].ToString());
             }
         }
         
@@ -67,8 +67,8 @@ namespace DynamicWebService
         {
             get
             {
-                int timeout = 30;
-                string confOption =_serviceBroker.Service.ServiceConfiguration["WebServiceTimeout"].ToString();
+                int timeout = Constants.Config.DefaultWebServiceTimeout;
+                string confOption =_serviceBroker.Service.ServiceConfiguration[Constants.Config.WebServiceTimeout].ToString();
                 if (string.IsNullOrEmpty(confOption))
                 {
                     return (timeout * 1000);
@@ -177,7 +177,7 @@ namespace DynamicWebService
             SoapHttpClientProtocol wsInstance = (SoapHttpClientProtocol)WebServiceAssembly.CreateInstance(wsType.Name);
             if (WebServiceDynamicUrl)
             {
-                string dynamicUrl = serviceObject.Properties["_DynamicWebServiceUrl"].Value as string;
+                string dynamicUrl = serviceObject.Properties[Constants.Properties.DynamicUrl].Value as string;
                 if (!string.IsNullOrEmpty(dynamicUrl))
                 {
                     wsInstance.Url = dynamicUrl;
@@ -358,7 +358,6 @@ namespace DynamicWebService
             ServiceObject serviceObject = _serviceBroker.Service.ServiceObjects[0];
             Method smoMethod = serviceObject.Methods[0];
 
-
             ParameterInfo[] parameters = wsMethod.GetParameters();
             object[] wsMethodParameters = new object[parameters.Length];
             int inputPropCount = 0;
@@ -367,7 +366,7 @@ namespace DynamicWebService
                 object inputObject = Activator.CreateInstance(parameters[0].ParameterType);
                 foreach (string inputPropName in smoMethod.InputProperties)
                 {
-                    if (string.Compare(inputPropName, "_DynamicWebServiceUrl", false) == 0)
+                    if (string.Compare(inputPropName, Constants.Properties.DynamicUrl, false) == 0)
                     {
                         continue;
                     }
@@ -383,7 +382,7 @@ namespace DynamicWebService
                 // Create input parameters for the Web Service, value comes from the ServiceObject Property value
                 foreach (string inputPropName in smoMethod.InputProperties)
                 {
-                    if (string.Compare(inputPropName, "_DynamicWebServiceUrl", false) == 0)
+                    if (string.Compare(inputPropName, Constants.Properties.DynamicUrl, false) == 0)
                     {
                         continue;
                     }

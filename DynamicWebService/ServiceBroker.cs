@@ -53,10 +53,10 @@ namespace DynamicWebService
 
         public override string GetConfigSection()
         {
-            this.Service.ServiceConfiguration.Add("URL", true, string.Empty);
-            this.Service.ServiceConfiguration.Add("WebServiceTimeout", true, 30);
-            this.Service.ServiceConfiguration.Add("WebServiceDynamicUrl", true, false);
-            this.Service.ServiceConfiguration.Add("Skip unsupported methods", false, true);
+            this.Service.ServiceConfiguration.Add(Constants.Config.WebServiceUrl, true, string.Empty);
+            this.Service.ServiceConfiguration.Add(Constants.Config.WebServiceTimeout, true, Constants.Config.DefaultWebServiceTimeout);
+            this.Service.ServiceConfiguration.Add(Constants.Config.WebServiceDynamicUrl, true, false);
+            this.Service.ServiceConfiguration.Add(Constants.Config.SkipUnsupportedMethods, false, true);
             return base.GetConfigSection();
         }
 

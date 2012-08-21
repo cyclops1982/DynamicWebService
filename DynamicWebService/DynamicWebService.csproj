@@ -69,6 +69,7 @@
     <Compile Include="Helper.cs" />
     <Compile Include="MapHelper.cs" />
     <Compile Include="ServiceBroker.cs" />
+    <Compile Include="StringConstants.cs" />
     <Compile Include="WebServiceAccessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
