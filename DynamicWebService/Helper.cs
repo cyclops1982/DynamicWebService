@@ -73,7 +73,7 @@ namespace DynamicWebService
         /// <param name="method"></param>
         /// <param name="smoMethod"></param>
         /// <param name="webServiceAssembly"></param>
-        public static void CreateInputParameters(ServiceObject serviceObject, Method smoMethod, MethodInfo method, Assembly webServiceAssembly)
+        public static void CreateInputParameters(ServiceObject serviceObject, Method smoMethod, MethodInfo method, Assembly webServiceAssembly, bool addDynamicUrlProperty)
         {
             ParameterInfo[] parameters = method.GetParameters();
 
@@ -89,6 +89,13 @@ namespace DynamicWebService
                 {
                     throw new NotSupportedException(string.Format("The method {0} has an Array for it's input parameters. We do not support this because a SmartObject doesn't accept a list as one property.", method.Name));
                 }
+            }
+
+            if (addDynamicUrlProperty)
+            {
+                Property property = CreateSmoProperty("_DynamicWebServiceUrl", typeof(System.String));
+                AddServiceObjectProperty(serviceObject, property);
+                smoMethod.InputProperties.Add(property);
             }
 
 
