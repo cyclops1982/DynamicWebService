@@ -7,3 +7,8 @@ It has some additional features:
 
 
 I've placed the project on GitHub to allow people to contribute and submit patches if they want to.
+
+********
+* TODO *
+********
+- Create constant class for strings. The use is quite limited but to avoid issues "forgotten" values, a constant class would be nice.
