@@ -125,6 +125,7 @@ namespace DynamicWebService
                 return _loadedServiceProxies[WebServiceUrl];
             }
         }
+
         #endregion Private Properties
 
         #region Public Methods
@@ -388,7 +389,24 @@ namespace DynamicWebService
                     }
 
                     Property inputProp = serviceObject.Properties[inputPropName];
-                    wsMethodParameters[inputPropCount] = Convert.ChangeType(inputProp.Value, Type.GetType(inputProp.Type));
+
+                    var type = Type.GetType(inputProp.Type);
+                    var underlyType = Nullable.GetUnderlyingType(type);
+                    //ref type
+                    if (type != null && underlyType != null && inputProp.Value != null)
+                    {
+                        wsMethodParameters[inputPropCount] = Convert.ChangeType(inputProp.Value, underlyType);
+                    }
+                    else if (type != null && inputProp.Value != null)
+                    {
+                        wsMethodParameters[inputPropCount] = Convert.ChangeType(inputProp.Value, type);
+                    }
+                    else
+                    {
+                        wsMethodParameters[inputPropCount] = null;
+                    }
+
+
                     inputPropCount++;
                 }
 
